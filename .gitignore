@@ -1,0 +1,8 @@
+*.jar
+piccolodb/target/surefire-reports/org.eck.AppTest.txt
+piccolodb/target/surefire-reports/TEST-org.eck.AppTest.xml
+piccolodb/target/test-classes/org/eck/AppTest.class
+piccolodb/target/maven-archiver/pom.properties
+piccolodb/.classpath
+piccolodb/.project
+piccolodb/target/classes/org/eck/App.class
