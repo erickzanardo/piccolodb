@@ -31,3 +31,5 @@ JsonObject jsonObject = db.get("entitytest", 1l);
 ```java
 List<JsonObject> result = db.listAll("entitytest");
 ```
+
+More features comming out soon!
