@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eck.piccolodb.exceptions.PiccoloDBFileNotFoundException;
 import org.eck.piccolodb.utils.FileUtils;
 
 import com.google.gson.JsonObject;
@@ -23,8 +24,12 @@ public class PiccoloDB {
     }
 
     public JsonObject get(String entity, Long id) {
-        String content = FileUtils.readFile(dbPath + "\\" + entity + "\\" + id + ".json");
-        return jsonParser.parse(content).getAsJsonObject();
+        try {
+            String content = FileUtils.readFile(dbPath + "\\" + entity + "\\" + id + ".json");
+            return jsonParser.parse(content).getAsJsonObject();
+        } catch (PiccoloDBFileNotFoundException e) {
+            return null;
+        }
     }
 
     public List<JsonObject> listAll(String entity) {
@@ -40,6 +45,11 @@ public class PiccoloDB {
         }
 
         return result;
+    }
+
+    public void delete(String entity, long id) {
+        File file = FileUtils.createFile(dbPath + "\\" + entity + "\\" + id + ".json");
+        file.delete();
     }
 
 }

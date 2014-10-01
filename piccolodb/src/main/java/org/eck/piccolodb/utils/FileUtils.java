@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.eck.piccolodb.exceptions.PiccoloDBFileNotFoundException;
+
 public class FileUtils {
     public static String readFile(String path) {
         StringBuilder ret = new StringBuilder();
@@ -22,6 +24,8 @@ public class FileUtils {
                 ret.append(line).append("\n\r");
                 line = br.readLine();
             }
+        } catch (FileNotFoundException e) {
+            throw new PiccoloDBFileNotFoundException();
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
@@ -43,7 +47,7 @@ public class FileUtils {
             writer.println(content);
             writer.close();
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new PiccoloDBFileNotFoundException();
         }
     }
 
@@ -58,6 +62,8 @@ public class FileUtils {
         if (!file.exists()) {
             try {
                 file.createNewFile();
+            } catch (FileNotFoundException e) {
+                throw new PiccoloDBFileNotFoundException();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
