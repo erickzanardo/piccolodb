@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.Test;
 
@@ -17,7 +18,8 @@ public class BasicTest {
 
     @Test
     public void testSaveAndGet() {
-        String basePath = System.getProperty("java.io.tmpdir") + "TESTDB\\";
+        Random r = new Random();
+        String basePath = System.getProperty("java.io.tmpdir") + (r.nextInt(150000)) + "\\";
 
         PiccoloDB db = new PiccoloDB();
         db.load(basePath);
@@ -34,11 +36,15 @@ public class BasicTest {
 
     @Test
     public void testListAll() {
-        String basePath = System.getProperty("java.io.tmpdir") + "TESTDB\\";
+        Random r = new Random();
+        String basePath = System.getProperty("java.io.tmpdir") + (r.nextInt(150000)) + "\\";
 
         PiccoloDB db = new PiccoloDB();
         db.load(basePath);
 
+        List<JsonObject> result = db.listAll("entitytest");
+        assertEquals(0, result.size());
+        
         JsonObject o = new JsonObject();
         o.addProperty("field1", "Bla");
         db.save(o, "entitytest", 1l);
@@ -51,13 +57,14 @@ public class BasicTest {
         o.addProperty("field1", "Bla3");
         db.save(o, "entitytest", 3l);
 
-        List<JsonObject> result = db.listAll("entitytest");
+        result = db.listAll("entitytest");
         assertEquals(3, result.size());
     }
 
     @Test
     public void testDelete() {
-        String basePath = System.getProperty("java.io.tmpdir") + "TESTDB\\";
+        Random r = new Random();
+        String basePath = System.getProperty("java.io.tmpdir") + (r.nextInt(150000)) + "\\";
 
         PiccoloDB db = new PiccoloDB();
         db.load(basePath);

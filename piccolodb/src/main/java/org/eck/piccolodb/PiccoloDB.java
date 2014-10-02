@@ -35,12 +35,14 @@ public class PiccoloDB {
     public List<JsonObject> listAll(String entity) {
         List<JsonObject> result = new ArrayList<JsonObject>();
 
-        File entityFolder = FileUtils.createFile(dbPath + "\\" + entity);
+        File entityFolder = new File(dbPath + "\\" + entity);
         if (entityFolder.exists()) {
             File[] listFiles = entityFolder.listFiles();
-            for (File entityFile : listFiles) {
-                String readFile = FileUtils.readFile(entityFile.getAbsolutePath());
-                result.add(jsonParser.parse(readFile).getAsJsonObject());
+            if (listFiles != null) {
+                for (File entityFile : listFiles) {
+                    String readFile = FileUtils.readFile(entityFile.getAbsolutePath());
+                    result.add(jsonParser.parse(readFile).getAsJsonObject());
+                }
             }
         }
 
