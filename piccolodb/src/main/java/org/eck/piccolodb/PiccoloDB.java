@@ -20,12 +20,12 @@ public class PiccoloDB {
         this.dbPath = dbPath;
     }
 
-    public void save(JsonObject object, String entity, Long id) {
+    public void save(JsonObject object, String entity, String id) {
         File file = FileUtils.createFile(getEntityPath(entity, id));
         FileUtils.writeFile(object.toString(), file);
     }
 
-    public JsonObject get(String entity, Long id) {
+    public JsonObject get(String entity, String id) {
         try {
             File file = getEntityPath(entity, id).toFile();
             String content = FileUtils.readFile(file.getAbsolutePath());
@@ -52,12 +52,12 @@ public class PiccoloDB {
         return result;
     }
 
-    public void delete(String entity, long id) {
+    public void delete(String entity, String id) {
         File file = FileUtils.createFile(getEntityPath(entity, id));
         file.delete();
     }
     
-    private Path getEntityPath(String entity, Long id) {
+    private Path getEntityPath(String entity, String id) {
     	return Paths.get(dbPath, entity, id + ".json");
     }
 

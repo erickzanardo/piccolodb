@@ -26,11 +26,11 @@ public class BasicTest {
         JsonObject o = new JsonObject();
         o.addProperty("field1", "Bla");
 
-        db.save(o, "entitytest", 1l);
+        db.save(o, "entitytest", "1");
         File f = Paths.get(basePath.getAbsolutePath(), "entitytest", "1.json").toFile();
         assertTrue(f.exists());
 
-        JsonObject jsonObject = db.get("entitytest", 1l);
+        JsonObject jsonObject = db.get("entitytest", "1");
         assertEquals(o, jsonObject);
     }
 
@@ -46,15 +46,15 @@ public class BasicTest {
         
         JsonObject o = new JsonObject();
         o.addProperty("field1", "Bla");
-        db.save(o, "entitytest", 1l);
+        db.save(o, "entitytest", "1");
 
         o = new JsonObject();
         o.addProperty("field1", "Bla2");
-        db.save(o, "entitytest", 2l);
+        db.save(o, "entitytest", "2");
 
         o = new JsonObject();
         o.addProperty("field1", "Bla3");
-        db.save(o, "entitytest", 3l);
+        db.save(o, "entitytest", "3");
 
         result = db.listAll("entitytest");
         assertEquals(3, result.size());
@@ -69,19 +69,19 @@ public class BasicTest {
         JsonObject o = new JsonObject();
         o.addProperty("field1", "Bla");
 
-        db.save(o, "entitytest", 1l);
+        db.save(o, "entitytest", "1");
         File f = Paths.get(basePath.getAbsolutePath(), "entitytest", "1.json").toFile();
         assertTrue(f.exists());
 
-        assertNotNull(db.get("entitytest", 1l));
-        db.delete("entitytest", 1l);
-        assertNull(db.get("entitytest", 1l));
+        assertNotNull(db.get("entitytest", "1"));
+        db.delete("entitytest", "1");
+        assertNull(db.get("entitytest", "1"));
 
         f = Paths.get(basePath.getAbsolutePath(), "entitytest", "1.json").toFile();
         assertFalse(f.exists());
 
         // Should not throw error
-        db.delete("entitytest", 11l);
+        db.delete("entitytest", "11");
     }
 
     private File basePath() {
