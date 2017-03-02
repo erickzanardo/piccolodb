@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Random;
 
@@ -18,16 +19,15 @@ public class BasicTest {
 
     @Test
     public void testSaveAndGet() {
-        Random r = new Random();
-        String basePath = System.getProperty("java.io.tmpdir") + (r.nextInt(150000)) + "\\";
+        File basePath = basePath();
 
         PiccoloDB db = new PiccoloDB();
-        db.load(basePath);
+        db.load(basePath.getAbsolutePath());
         JsonObject o = new JsonObject();
         o.addProperty("field1", "Bla");
 
         db.save(o, "entitytest", 1l);
-        File f = new File(basePath + "entitytest\\1.json");
+        File f = Paths.get(basePath.getAbsolutePath(), "entitytest", "1.json").toFile();
         assertTrue(f.exists());
 
         JsonObject jsonObject = db.get("entitytest", 1l);
@@ -36,11 +36,10 @@ public class BasicTest {
 
     @Test
     public void testListAll() {
-        Random r = new Random();
-        String basePath = System.getProperty("java.io.tmpdir") + (r.nextInt(150000)) + "\\";
+        File basePath = basePath();
 
         PiccoloDB db = new PiccoloDB();
-        db.load(basePath);
+        db.load(basePath.getAbsolutePath());
 
         List<JsonObject> result = db.listAll("entitytest");
         assertEquals(0, result.size());
@@ -63,26 +62,30 @@ public class BasicTest {
 
     @Test
     public void testDelete() {
-        Random r = new Random();
-        String basePath = System.getProperty("java.io.tmpdir") + (r.nextInt(150000)) + "\\";
+        File basePath = basePath();
 
         PiccoloDB db = new PiccoloDB();
-        db.load(basePath);
+        db.load(basePath.getAbsolutePath());
         JsonObject o = new JsonObject();
         o.addProperty("field1", "Bla");
 
         db.save(o, "entitytest", 1l);
-        File f = new File(basePath + "entitytest\\1.json");
+        File f = Paths.get(basePath.getAbsolutePath(), "entitytest", "1.json").toFile();
         assertTrue(f.exists());
 
         assertNotNull(db.get("entitytest", 1l));
         db.delete("entitytest", 1l);
         assertNull(db.get("entitytest", 1l));
 
-        f = new File(basePath + "entitytest\\1.json");
+        f = Paths.get(basePath.getAbsolutePath(), "entitytest", "1.json").toFile();
         assertFalse(f.exists());
 
         // Should not throw error
         db.delete("entitytest", 11l);
+    }
+
+    private File basePath() {
+        Random r = new Random();
+        return Paths.get("/tmp", String.valueOf(r.nextInt(150000))).toFile();
     }
 }

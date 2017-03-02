@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Path;
 
 import org.eck.piccolodb.exceptions.PiccoloDBFileNotFoundException;
 
@@ -51,8 +52,8 @@ public class FileUtils {
         }
     }
 
-    public static File createFile(String path) {
-        File file = new File(path);
+    public static File createFile(Path path) {
+    	File file = path.toFile();
 
         File parentFile = file.getParentFile();
         if (!parentFile.exists()) {
